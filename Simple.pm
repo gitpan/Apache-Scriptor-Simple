@@ -10,32 +10,32 @@ my $DefHandDir="handlers";
 # нелегальным образом и, если это так, перебрасываем в корень.
 # Запуск не как CGI?
 if(!$ENV{DOCUMENT_ROOT} || !$ENV{SCRIPT_NAME} || !$ENV{SERVER_NAME}) {
-	print "This script has to be used only as Apache handler!\n\n";
-	exit;
+  print "This script has to be used only as Apache handler!\n\n";
+  exit;
 }
 # Запуск "напрямую"?
-if(!$ENV{REDIRECT_URL})	{
-	print "Location: http://$ENV{SERVER_NAME}/\n\n";
-	exit;
+if(!$ENV{REDIRECT_URL}) {
+  print "Location: http://$ENV{SERVER_NAME}/\n\n";
+  exit;
 }
 #############################################################################
 
 sub import 
-{	my ($pkg,$HandDir);
-	# По умолчанию?
-	if(!defined $HandDir) {
-		use FindBin qw($Bin);
-		($Bin) = $Bin=~/(.*)/;
-		$HandDir = "$Bin/$DefHandDir";
-	}
-	require Apache::Scriptor;
-	my $Scr=Apache::Scriptor->new();
-	# Устанавливаем директорию с обработчиками.
-	$Scr->set_handlers_dir($HandDir);
-	# Поехали.
-	my ($uri)  = $ENV{REQUEST_URI}=~/(.*)/;
-	my ($path) = $ENV{PATH_TRANSLATED}=~/(.*)/;
-	$Scr->run_uri($uri, $path);
+{ my ($pkg,$HandDir);
+  # По умолчанию?
+  if(!defined $HandDir) {
+    use FindBin qw($Bin);
+    ($Bin) = $Bin=~/(.*)/;
+    $HandDir = "$Bin/$DefHandDir";
+  }
+  require Apache::Scriptor;
+  my $Scr=Apache::Scriptor->new();
+  # Устанавливаем директорию с обработчиками.
+  $Scr->set_handlers_dir($HandDir);
+  # Поехали.
+  my ($uri)  = $ENV{REQUEST_URI}=~/(.*)/;
+  my ($path) = $ENV{PATH_TRANSLATED}=~/(.*)/;
+  $Scr->run_uri($uri, $path);
 }
 
 return 1;
@@ -75,7 +75,7 @@ example in Apache::Scriptor module.
 
   ### File /_Kernel/Scriptor.pl:
     #!/usr/local/bin/perl -w 
-	use Apache::Scriptor::Simple; 
+  use Apache::Scriptor::Simple; 
 
   ### File /test.htm:
     print "<html><body>Hello, world!</body></html>";
@@ -85,19 +85,19 @@ example in Apache::Scriptor module.
     {  my ($input)=@_;
        -f $ENV{SCRIPT_FILENAME} or return -1; # Error indicator
        # Adds the comment string BEFORE all the output.
-       print '<!-- Copyright (C) by Dmitry Koteroff (koteroff@cpan.org) -->\n'.$input;
+       print '<!-- Copyright (C) by Dmitry Koterov (koterov at cpan dot org) -->\n'.$input;
        return 0; # OK
     }
 
   ### Then, user enters the URL: http://ourhost.com/test.htm.
   ### The result will be:
     Content-type: text/html\n\n
-    <!-- Copyright (C) by Dmitry Koteroff (koteroff@cpan.org) -->\n
+    <!-- Copyright (C) by Dmitry Koterov (koterov at cpan dot org) -->\n
     Hello, world!
 
 =head1 AUTHOR
 
-Dmitry Koteroff <koteroff@cpan.org>, http://www.dklab.ru
+Dmitry Koterov <koterov at cpan dot org>, http://www.dklab.ru
 
 =head1 SEE ALSO
 
