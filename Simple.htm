@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<TITLE>Apache::Scriptor::Simple - The simplest way to activate Apache::Scriptor.</TITLE>
+<LINK REV="made" HREF="mailto:">
+</HEAD>
+
+<BODY>
+
+<A NAME="__index__"></A>
+<!-- INDEX BEGIN -->
+
+<UL>
+
+	<LI><A HREF="#name">NAME</A></LI>
+	<LI><A HREF="#synopsis">SYNOPSIS</A></LI>
+	<LI><A HREF="#description">DESCRIPTION</A></LI>
+	<LI><A HREF="#example">EXAMPLE</A></LI>
+	<LI><A HREF="#author">AUTHOR</A></LI>
+	<LI><A HREF="#see also">SEE ALSO</A></LI>
+</UL>
+<!-- INDEX END -->
+
+<HR>
+<P>
+<H1><A NAME="name">NAME</A></H1>
+<P>Apache::Scriptor::Simple - The simplest way to activate Apache::Scriptor.</P>
+<P>
+<HR>
+<H1><A NAME="synopsis">SYNOPSIS</A></H1>
+<PRE>
+  #!/usr/local/bin/perl -w 
+  # Use &quot;handlers&quot; handler directory:
+  use Apache::Scriptor::Simple; 
+  # that's all!</PRE>
+<PRE>
+  #!/usr/local/bin/perl -w 
+  # Custom handler directory:
+  use Apache::Scriptor::Simple(&quot;myhandlers&quot;); 
+  # that's all!</PRE>
+<P>
+<HR>
+<H1><A NAME="description">DESCRIPTION</A></H1>
+<P>This module is used to make the work of creation Apache handler schipt easily. See 
+example in Apache::Scriptor module.</P>
+<P>
+<HR>
+<H1><A NAME="example">EXAMPLE</A></H1>
+<PRE>
+  ### File /.htaccess:
+    # Setting up the conveyor for .htm:
+    # &quot;input&quot; =&gt; eperl =&gt; s_copyright =&gt; &quot;output&quot; 
+    Action     perl &quot;/_Kernel/Scriptor.pl&quot;
+    AddHandler perl .htm
+    Action     s_copyright &quot;/_Kernel/Scriptor.pl&quot;
+    AddHandler s_copyright .htm</PRE>
+<PRE>
+  ### File /_Kernel/Scriptor.pl:
+    #!/usr/local/bin/perl -w 
+        use Apache::Scriptor::Simple;</PRE>
+<PRE>
+  ### File /test.htm:
+    print &quot;&lt;html&gt;&lt;body&gt;Hello, world!&lt;/body&gt;&lt;/html&gt;&quot;;</PRE>
+<PRE>
+  ### File /_Kernel/handlers/s_copyright.pl:
+    sub s_copyright
+    {  my ($input)=@_;
+       -f $ENV{SCRIPT_FILENAME} or return -1; # Error indicator
+       # Adds the comment string BEFORE all the output.
+       print '&lt;!-- Copyright (C) by Dmitry Koteroff (koteroff@cpan.org) --&gt;\n'.$input;
+       return 0; # OK
+    }</PRE>
+<PRE>
+  ### Then, user enters the URL: <A HREF="http://ourhost.com/test.htm">http://ourhost.com/test.htm</A>.
+  ### The result will be:
+    Content-type: text/html\n\n
+    &lt;!-- Copyright (C) by Dmitry Koteroff (koteroff@cpan.org) --&gt;\n
+    Hello, world!</PRE>
+<P>
+<HR>
+<H1><A NAME="author">AUTHOR</A></H1>
+<P>Dmitry Koteroff &lt;<A HREF="mailto:koteroff@cpan.org">koteroff@cpan.org</A>&gt;, <A HREF="http://www.dklab.ru">http://www.dklab.ru</A></P>
+<P>
+<HR>
+<H1><A NAME="see also">SEE ALSO</A></H1>
+<P><CODE>Apache::Scriptor</CODE>.</P>
+
+</BODY>
+
+</HTML>
