@@ -3,5 +3,4 @@ Makefile.PL
 MANIFEST
 README
 Simple.pm
-Simple.htm
 test.pl

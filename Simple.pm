@@ -1,5 +1,5 @@
 package Apache::Scriptor::Simple;
-$VERSION="1.20";
+$VERSION="1.21";
 use Apache::Scriptor;
 
 # Директория обработчиков по умолчанию
